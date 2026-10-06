@@ -6,24 +6,28 @@ pipeline {
     }
 
     stages {
+
         stage('Install') {
             steps {
                 bat 'npm install'
             }
         }
+
         stage('Test') {
             steps {
-                // bat 'run test' if have test project
                 echo 'Skipping tests - no test script found'
             }
         }
+
         stage('Build') {
             steps {
                 bat 'npm run build'
             }
         }
+
         stage('Deploy') {
             steps {
+                bat 'npx vercel link --yes --token=%VERCEL_TOKEN% --project=nextjs-jenkins-app'
                 bat 'npx vercel --prod --yes --token=%VERCEL_TOKEN%'
             }
         }
